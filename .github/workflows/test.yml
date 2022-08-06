@@ -4,7 +4,7 @@ name: Test
 on:
   push:
     branches:
-      - master
+      - main
   pull_request: {}
 env:
   swift_package_resolve: swift package resolve
