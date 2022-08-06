@@ -13,21 +13,17 @@ public final class SwiftTimeZoneLookup {
         guard let timezone21 = Bundle.module.url(forResource: "timezone21", withExtension: "bin") else {
             throw SwiftTimeZoneLookupError.couldNotFindTimezone21bin
         }
-        
         guard let database = timezone21.withUnsafeFileSystemRepresentation({ timezone21 in
             ZDOpenDatabase(timezone21)
         }) else {
             throw SwiftTimeZoneLookupError.couldNotOpenDatabase
         }
         self.database = database
-        
-        
-        print(timezone21)
     }
     
-    public func lookup(latitude: Float, longitude: Float) -> String {
+    public func lookup(latitude: Float, longitude: Float) -> String? {
         guard let cTimezone = ZDHelperSimpleLookupString(database, latitude, longitude) else {
-            fatalError()
+            return nil
         }
         let timezone = String(cString: cTimezone)
         ZDHelperSimpleLookupStringFree(cTimezone)

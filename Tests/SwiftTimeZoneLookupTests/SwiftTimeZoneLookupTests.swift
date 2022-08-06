@@ -8,5 +8,7 @@ final class SwiftTimeZoneLookupTests: XCTestCase {
         XCTAssertEqual(database.lookup(latitude: 47.5, longitude: -2.6), "Europe/Paris")
         XCTAssertEqual(database.lookup(latitude: 47.5, longitude: -8.6), "Etc/GMT+1")
         XCTAssertEqual(database.lookup(latitude: 42.5, longitude: -8.6), "Europe/Madrid")
+        
+        XCTAssertEqual(database.lookup(latitude: 242.5, longitude: -8.6), nil)
     }
 }
