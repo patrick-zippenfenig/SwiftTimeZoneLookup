@@ -1,0 +1,3 @@
+[submodule "Submodules/ZoneDetect"]
+	path = Submodules/ZoneDetect
+	url = https://github.com/BertoldVdb/ZoneDetect.git
