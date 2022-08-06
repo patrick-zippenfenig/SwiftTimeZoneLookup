@@ -21,7 +21,8 @@ let package = Package(
         .target(name: "CZoneDetect"),
         .target(
             name: "SwiftTimeZoneLookup",
-            dependencies: ["CZoneDetect"]),
+            dependencies: ["CZoneDetect"],
+            resources: [.process("Resources")]),
         .testTarget(
             name: "SwiftTimeZoneLookupTests",
             dependencies: ["SwiftTimeZoneLookup"]),
