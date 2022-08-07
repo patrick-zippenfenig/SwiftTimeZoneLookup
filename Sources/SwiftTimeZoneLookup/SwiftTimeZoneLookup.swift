@@ -31,17 +31,23 @@ public final class SwiftTimeZoneLookup {
         var timezoneIdPrefix: UnsafeMutablePointer<CChar>? = nil
         var timezoneId: UnsafeMutablePointer<CChar>? = nil
         for i in 0..<result.pointee.numFields {
-            /*if strcmp(result.pointee.fieldNames.advanced(by: Int(i)).pointee, "CountryAlpha2") == 0 {
-                countryAlpha2 = result.pointee.data.advanced(by: Int(i)).pointee.map { String(cString: $0) }
+            guard let field = result.pointee.fieldNames.advanced(by: Int(i)).pointee else {
+                continue
             }
-            if strcmp(result.pointee.fieldNames.advanced(by: Int(i)).pointee, "CountryName") == 0 {
-                countryName = result.pointee.data.advanced(by: Int(i)).pointee.map { String(cString: $0) }
+            guard let value = result.pointee.data.advanced(by: Int(i)).pointee else {
+                continue
+            }
+            /*if strcmp(field, "CountryAlpha2") == 0 {
+                countryAlpha2 = String(cString: value)
+            }
+            if strcmp(field, "CountryName") == 0 {
+                countryName = String(cString: value)
             }*/
-            if strcmp(result.pointee.fieldNames.advanced(by: Int(i)).pointee, "TimezoneIdPrefix") == 0 {
-                timezoneIdPrefix = result.pointee.data.advanced(by: Int(i)).pointee
+            if strcmp(field, "TimezoneIdPrefix") == 0 {
+                timezoneIdPrefix = value
             }
-            if strcmp(result.pointee.fieldNames.advanced(by: Int(i)).pointee, "TimezoneId") == 0 {
-                timezoneId = result.pointee.data.advanced(by: Int(i)).pointee
+            if strcmp(field, "TimezoneId") == 0 {
+                timezoneId = value
             }
         }
         guard let timezoneIdPrefix = timezoneIdPrefix, let timezoneId = timezoneId else {
