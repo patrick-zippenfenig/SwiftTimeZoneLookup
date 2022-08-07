@@ -74,8 +74,10 @@ jobs:
         echo "::set-output name=version::$(swift -version | head -n 1 | sed s/,// )"
       shell: bash
     - uses: actions/checkout@master
+    - name: Checkout submodules
+      uses: srt32/git-actions@v0.0.3
       with:
-        submodules: true
+        args: git submodule update --init --recursive
     - name: Cache resolved dependencies
       id: cache-resolved-dependencies
       uses: actions/cache@v2
