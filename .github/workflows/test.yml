@@ -11,7 +11,6 @@ env:
   swift_build: swift build --build-tests
   swift_test: swift test
   cache_version: 1
-  GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
 jobs:
   macOS:
     strategy:
@@ -75,10 +74,9 @@ jobs:
         echo "::set-output name=version::$(swift -version | head -n 1 | sed s/,// )"
       shell: bash
     - uses: actions/checkout@master
-    - name: Checkout submodules
-      uses: srt32/git-actions@v0.0.3
       with:
-        args: git submodule update --init --recursive
+        fetch-depth: 0
+        submodules: true
     - name: Cache resolved dependencies
       id: cache-resolved-dependencies
       uses: actions/cache@v2
