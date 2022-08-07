@@ -27,9 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Checkout submodules
-      uses: srt32/git-actions@v0.0.3
-      with:
-        args: git submodule update --init --recursive
+      run: git submodule update --init --recursive
     - name: Select Xcode version
       run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app; swift -version
     - name: Get Swift Version
@@ -77,9 +75,7 @@ jobs:
       shell: bash
     - uses: actions/checkout@master
     - name: Checkout submodules
-      uses: srt32/git-actions@v0.0.3
-      with:
-        args: git submodule update --init --recursive
+      run: GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git submodule update --init --recursive
     - name: Cache resolved dependencies
       id: cache-resolved-dependencies
       uses: actions/cache@v2
