@@ -22,11 +22,32 @@ public final class SwiftTimeZoneLookup {
     }
     
     public func lookup(latitude: Float, longitude: Float) -> String? {
-        guard let cTimezone = ZDHelperSimpleLookupString(database, latitude, longitude) else {
+        guard let result = ZDLookup(database, latitude, longitude, nil) else {
             return nil
         }
-        let timezone = String(cString: cTimezone)
-        ZDHelperSimpleLookupStringFree(cTimezone)
+        defer { ZDFreeResults(result) }
+        /*var countryName: String? = nil
+        var countryAlpha2: String? = nil*/
+        var timezoneIdPrefix: UnsafeMutablePointer<CChar>? = nil
+        var timezoneId: UnsafeMutablePointer<CChar>? = nil
+        for i in 0..<result.pointee.numFields {
+            /*if strcmp(result.pointee.fieldNames.advanced(by: Int(i)).pointee, "CountryAlpha2") == 0 {
+                countryAlpha2 = result.pointee.data.advanced(by: Int(i)).pointee.map { String(cString: $0) }
+            }
+            if strcmp(result.pointee.fieldNames.advanced(by: Int(i)).pointee, "CountryName") == 0 {
+                countryName = result.pointee.data.advanced(by: Int(i)).pointee.map { String(cString: $0) }
+            }*/
+            if strcmp(result.pointee.fieldNames.advanced(by: Int(i)).pointee, "TimezoneIdPrefix") == 0 {
+                timezoneIdPrefix = result.pointee.data.advanced(by: Int(i)).pointee
+            }
+            if strcmp(result.pointee.fieldNames.advanced(by: Int(i)).pointee, "TimezoneId") == 0 {
+                timezoneId = result.pointee.data.advanced(by: Int(i)).pointee
+            }
+        }
+        guard let timezoneIdPrefix = timezoneIdPrefix, let timezoneId = timezoneId else {
+            return nil
+        }
+        let timezone = String(cString: timezoneIdPrefix) + String(cString: timezoneId)
         return timezone
     }
     
