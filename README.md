@@ -2,7 +2,11 @@
 
 [![Test](https://github.com/patrick-zippenfenig/SwiftTimeZoneLookup/actions/workflows/test.yml/badge.svg)](https://github.com/patrick-zippenfenig/SwiftTimeZoneLookup/actions/workflows/test.yml)
 
-Resolve geographical coordinates to timezones and countries. This is a Swift wrapper for [ZoneDetect](https://github.com/BertoldVdb/ZoneDetect)
+Resolve geographical coordinates to timezones and countries. This is a Swift wrapper for [ZoneDetect](https://github.com/BertoldVdb/ZoneDetect). 
+
+A timezone database with up to 20 meter resolution is embedded as a bundle resource (~5 MB). If you want to manually specify the database location, use `try SwiftTimeZoneLookup(databasePath: "/path_to_timezone16_21_files/..")`
+
+This library is thread safe.
 
 ## Usage
 Add `SwiftTimeZoneLookup` as a dependency to your `Package.swift`
@@ -19,6 +23,7 @@ Add `SwiftTimeZoneLookup` as a dependency to your `Package.swift`
 ```
 
 In your code
+
 ```swift
 import SwiftTimeZoneLookup
 
@@ -53,3 +58,8 @@ LIBRARY_PATH=/opt/homebrew/Cellar/shapelib/1.5.0/lib CPATH=/opt/homebrew/Cellar/
 cp out_v1/timezone* ../../../../Sources/SwiftTimeZoneLookup/Resources
 
 ```
+
+## Credits
+[ZoneDetect](https://github.com/BertoldVdb/ZoneDetect) as the upstream library.
+
+Contains data from Natural Earth, placed in the Public Domain. Contains information from https://github.com/evansiroky/timezone-boundary-builder, which is made available here under the Open Database License (ODbL)
