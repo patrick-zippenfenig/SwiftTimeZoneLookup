@@ -1,5 +1,7 @@
 # SwiftTimeZoneLookup
 
+[![Test](https://github.com/patrick-zippenfenig/SwiftTimeZoneLookup/actions/workflows/test.yml/badge.svg)](https://github.com/patrick-zippenfenig/SwiftTimeZoneLookup/actions/workflows/test.yml)
+
 A description of this package.
 
 
