@@ -11,6 +11,7 @@ env:
   swift_build: swift build --build-tests
   swift_test: swift test
   cache_version: 1
+  GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
 jobs:
   macOS:
     strategy:
