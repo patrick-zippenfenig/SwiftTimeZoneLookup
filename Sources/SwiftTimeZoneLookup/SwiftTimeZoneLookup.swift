@@ -25,7 +25,17 @@ public final class SwiftTimeZoneLookup {
     private let database16: OpaquePointer
     
     /// Throws if the timezone database could not be opened
-    public init() throws {
+    /// If an optional `databasePath` is provided, it tries first to uses this path and then uses the default bundle resources path
+    public init(databasePath: String? = nil) throws {
+        if let databasePath = databasePath,
+            let database21 = ZDOpenDatabase("\(databasePath)timezone21.bin"),
+            let database16 = ZDOpenDatabase("\(databasePath)timezone16.bin")
+        {
+                self.database21 = database21
+                self.database16 = database16
+                return
+        }
+        
         guard let timezone21 = Bundle.module.path(forResource: "timezone21", ofType: "bin") else {
             throw SwiftTimeZoneLookupError.couldNotFindTimezone21bin
         }
