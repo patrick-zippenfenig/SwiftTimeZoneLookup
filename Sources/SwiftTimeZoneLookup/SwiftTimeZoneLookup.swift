@@ -8,34 +8,60 @@ public enum SwiftTimeZoneLookupError: Error {
 
 public struct SwiftTimeZoneLookupResult {
     /// Timezone identifier like `Europe/Berlin`
-    let timezone: String
+    public let timezone: String
     
     /// Country name like `Germany`
-    let countryName: String?
+    public let countryName: String?
     
     /// 2 character country code like `DE` for Germany
-    let countryAlpha2: String?
+    public let countryAlpha2: String?
 }
 
 public final class SwiftTimeZoneLookup {
-    private let database: OpaquePointer
+    /// 0.00017 degrees (~20m) resolution
+    private let database21: OpaquePointer
+    
+    /// 0.0055 degrees (~0.5km) resolution
+    private let database16: OpaquePointer
     
     /// Throws if the timezone database could not be opened
     public init() throws {
         guard let timezone21 = Bundle.module.url(forResource: "timezone21", withExtension: "bin") else {
             throw SwiftTimeZoneLookupError.couldNotFindTimezone21bin
         }
-        guard let database = timezone21.withUnsafeFileSystemRepresentation({ timezone21 in
-            ZDOpenDatabase(timezone21)
-        }) else {
+        guard let timezone16 = Bundle.module.url(forResource: "timezone16", withExtension: "bin") else {
+            throw SwiftTimeZoneLookupError.couldNotFindTimezone21bin
+        }
+        
+        guard let database21 = timezone21.withUnsafeFileSystemRepresentation(ZDOpenDatabase) else {
             throw SwiftTimeZoneLookupError.couldNotOpenDatabase
         }
-        self.database = database
+        guard let database16 = timezone16.withUnsafeFileSystemRepresentation(ZDOpenDatabase) else {
+            throw SwiftTimeZoneLookupError.couldNotOpenDatabase
+        }
+        
+        self.database21 = database21
+        self.database16 = database16
+    }
+    
+    /// Try with lower resolution first and use high resolution database if too close to the border
+    private func highResLookup(latitude: Float, longitude: Float) -> UnsafeMutablePointer<ZoneDetectResult>? {
+        var safezone: Float = .nan
+        guard let result = ZDLookup(database16, latitude, longitude, &safezone) else {
+            return nil
+        }
+        if safezone >= 0.0055*2 {
+            return result
+        }
+        guard let result21 = ZDLookup(database21, latitude, longitude, &safezone) else {
+            return nil
+        }
+        return result21
     }
     
     /// Resolve timezone by coordinate and return timezone, country name and alpha2
     public func lookup(latitude: Float, longitude: Float) -> SwiftTimeZoneLookupResult? {
-        guard let result = ZDLookup(database, latitude, longitude, nil) else {
+        guard let result = highResLookup(latitude: latitude, longitude: longitude) else {
             return nil
         }
         defer { ZDFreeResults(result) }
@@ -72,7 +98,7 @@ public final class SwiftTimeZoneLookup {
     
     /// Resolve the timz
     public func simple(latitude: Float, longitude: Float) -> String? {
-        guard let result = ZDLookup(database, latitude, longitude, nil) else {
+        guard let result = highResLookup(latitude: latitude, longitude: longitude) else {
             return nil
         }
         defer { ZDFreeResults(result) }
@@ -100,6 +126,6 @@ public final class SwiftTimeZoneLookup {
     }
     
     deinit {
-        ZDCloseDatabase(database)
+        ZDCloseDatabase(database21)
     }
 }

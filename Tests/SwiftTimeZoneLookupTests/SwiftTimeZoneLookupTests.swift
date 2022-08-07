@@ -1,5 +1,5 @@
 import XCTest
-@testable import SwiftTimeZoneLookup
+import SwiftTimeZoneLookup
 
 final class SwiftTimeZoneLookupTests: XCTestCase {
     func testLookup() throws {
@@ -13,5 +13,9 @@ final class SwiftTimeZoneLookupTests: XCTestCase {
         
         XCTAssertEqual(database.lookup(latitude: 42.5, longitude: -8.6)?.countryName, "Spain")
         XCTAssertEqual(database.lookup(latitude: 42.5, longitude: -8.6)?.countryAlpha2, "ES")
+        
+        // on the border to the netherlands. Requires high resolution lookup
+        XCTAssertEqual(database.simple(latitude: 53.242293, longitude: 7.209253), "Europe/Berlin")
+        XCTAssertEqual(database.simple(latitude: 53.239692, longitude: 7.207879), "Europe/Amsterdam")
     }
 }
