@@ -27,7 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Checkout submodules
-        run: git submodule update --init --recursive
+      run: git submodule update --init --recursive
     - name: Select Xcode version
       run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app; swift -version
     - name: Get Swift Version
