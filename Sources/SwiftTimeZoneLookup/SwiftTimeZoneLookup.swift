@@ -26,17 +26,17 @@ public final class SwiftTimeZoneLookup {
     
     /// Throws if the timezone database could not be opened
     public init() throws {
-        guard let timezone21 = Bundle.module.url(forResource: "timezone21", withExtension: "bin") else {
+        guard let timezone21 = Bundle.module.path(forResource: "timezone21", ofType: "bin") else {
             throw SwiftTimeZoneLookupError.couldNotFindTimezone21bin
         }
-        guard let timezone16 = Bundle.module.url(forResource: "timezone16", withExtension: "bin") else {
+        guard let timezone16 = Bundle.module.path(forResource: "timezone16", ofType: "bin") else {
             throw SwiftTimeZoneLookupError.couldNotFindTimezone21bin
         }
         
-        guard let database21 = timezone21.withUnsafeFileSystemRepresentation(ZDOpenDatabase) else {
+        guard let database21 = ZDOpenDatabase(timezone21) else {
             throw SwiftTimeZoneLookupError.couldNotOpenDatabase
         }
-        guard let database16 = timezone16.withUnsafeFileSystemRepresentation(ZDOpenDatabase) else {
+        guard let database16 = ZDOpenDatabase(timezone16) else {
             throw SwiftTimeZoneLookupError.couldNotOpenDatabase
         }
         
