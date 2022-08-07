@@ -76,7 +76,10 @@ jobs:
     - uses: actions/checkout@master
       with:
         fetch-depth: 0
-        submodules: true
+    - name: Checkout submodules
+      uses: srt32/git-actions@v0.0.3
+      with:
+        args: git submodule update --init --recursive
     - name: Cache resolved dependencies
       id: cache-resolved-dependencies
       uses: actions/cache@v2
