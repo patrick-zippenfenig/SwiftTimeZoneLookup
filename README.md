@@ -6,6 +6,8 @@ Resolve geographical coordinates to timezones and countries. This is a Swift wra
 
 A timezone database with up to 20 meter resolution is embedded as a bundle resource (~5 MB). If you want to manually specify the database location, use `try SwiftTimeZoneLookup(databasePath: "/path_to_timezone16_21_files/..")`
 
+Embedded timezone database version [2022f (2022-10-31)](https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2022f).
+
 This library is thread safe.
 
 ## Usage
