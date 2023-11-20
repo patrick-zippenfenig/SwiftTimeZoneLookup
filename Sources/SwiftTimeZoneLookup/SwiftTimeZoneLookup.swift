@@ -63,6 +63,8 @@ public final class SwiftTimeZoneLookup {
         if safezone >= 0.0055*2 {
             return result
         }
+        ZDFreeResults(result)
+        
         guard let result21 = ZDLookup(database21, latitude, longitude, &safezone) else {
             return nil
         }
@@ -108,6 +110,12 @@ public final class SwiftTimeZoneLookup {
     
     /// Resolve the timz
     public func simple(latitude: Float, longitude: Float) -> String? {
+        if (36.2443...36.7389).contains(latitude) && (26.0019...26.7957).contains(longitude) {
+            // Astypalaia island in Greece does not resolve any timezone and would return nil
+            // Reasons unknown, could be an invalid polygon
+            return "Europe/Athens"
+        }
+        
         guard let result = highResLookup(latitude: latitude, longitude: longitude) else {
             return nil
         }
