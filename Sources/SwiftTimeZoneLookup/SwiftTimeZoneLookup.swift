@@ -115,6 +115,10 @@ public final class SwiftTimeZoneLookup {
             // Reasons unknown, could be an invalid polygon
             return "Europe/Athens"
         }
+        if (11.865393...12.474443).contains(latitude) && (-69.312710...(-68.613387)).contains(longitude) {
+            // Curacao island
+            return "America/Curacao"
+        }
         
         guard let result = highResLookup(latitude: latitude, longitude: longitude) else {
             return nil

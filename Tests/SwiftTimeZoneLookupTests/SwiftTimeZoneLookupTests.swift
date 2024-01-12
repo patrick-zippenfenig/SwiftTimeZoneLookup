@@ -24,6 +24,7 @@ final class SwiftTimeZoneLookupTests: XCTestCase {
         XCTAssertEqual(database.simple(latitude: 36.8370, longitude: 25.8904), "Europe/Athens") // island to the north
         XCTAssertEqual(database.simple(latitude: 36.3683, longitude: 25.7735), "Europe/Athens") // island to north west
         
-
+        // https://github.com/open-meteo/open-meteo/issues/589
+        XCTAssertEqual(database.simple(latitude: 12.2, longitude: -68.97), "America/Curacao")
     }
 }
