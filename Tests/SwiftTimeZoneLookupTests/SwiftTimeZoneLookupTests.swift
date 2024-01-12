@@ -26,5 +26,17 @@ final class SwiftTimeZoneLookupTests: XCTestCase {
         
         // https://github.com/open-meteo/open-meteo/issues/589
         XCTAssertEqual(database.simple(latitude: 12.2, longitude: -68.97), "America/Curacao")
+        
+        // https://github.com/open-meteo/open-meteo/issues/591
+        XCTAssertEqual(database.simple(latitude: 10.12, longitude: -64.70), "Etc/GMT+4")
+        XCTAssertEqual(database.simple(latitude: 12.13, longitude: -68.28), "America/Kralendijk")
+        XCTAssertEqual(database.simple(latitude: 10.61, longitude: -66.98), "Etc/GMT+4")
+        XCTAssertEqual(database.simple(latitude: 6.73 , longitude: -66.98), "America/Bogota")
+        XCTAssertEqual(database.simple(latitude: 12.05, longitude: -61.73), "America/Grenada")
+        XCTAssertEqual(database.simple(latitude: 10.97, longitude: -63.83), "Etc/GMT+4")
+        XCTAssertEqual(database.simple(latitude: 10.65, longitude: -61.52), "America/Grenada")
+        XCTAssertEqual(database.simple(latitude: 7.58, longitude: -72.07), "America/Bogota")
+        XCTAssertEqual(database.simple(latitude: 11.15, longitude: -60.84), "Etc/GMT+4")
+        XCTAssertEqual(database.simple(latitude: 10.15, longitude:  -68.03), "Etc/GMT+5")
     }
 }
