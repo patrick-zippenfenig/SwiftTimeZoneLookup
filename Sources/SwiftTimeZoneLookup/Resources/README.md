@@ -1,5 +1,5 @@
-Database version 2021c
+Database version 2024a
 
-Generated on 2022-08-07
+Generated on 2024-03-14
 
-https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2021c
+https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2024a
